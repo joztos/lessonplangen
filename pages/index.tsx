@@ -35,7 +35,7 @@ const Home: NextPage = () => {
     bio +
     `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Escriba el contenido anterior con los temas siguientes.    
     1. Actividad temprana.
-    Proporcione algunos títulos de canciones o un pequeño título de baile o un método de juego corto para aprender el tema y llamar la atención.
+    Proporcione una actividad de activacion y enfoque para los estudiantes antes de iniciar la clase.
     2. Requisitos previos
     Proporcione los requisitos previos detallados para aprender el tema.
     3. Tema y Meta
