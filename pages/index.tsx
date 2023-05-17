@@ -37,8 +37,8 @@ const Home: NextPage = () => {
     1. Actividad temprana.
     Proporcione una actividad de activacion y enfoque para los estudiantes antes de iniciar la clase.
     2. Requisitos previos
-    Proporcione los requisitos previos detallados para aprender el tema.
-    3. Tema y Meta
+    Proporcione los conocimientos detallados que se requieren para aprender el tema.
+    3. Tema y Objetivos de la clase
     4. Desarrollo del tema
     5. Reconecta la actividad
     Esto permite a los estudiantes reconectar su atención al tiempo de clase y prepararlos emocionalmente para el desarrollo de las actividades planificadas.
