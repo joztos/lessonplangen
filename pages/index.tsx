@@ -29,25 +29,24 @@ const Home: NextPage = () => {
   }, [generatedBios]);
 
   const prompt =
-  "I am creating an app that generates class plans for students. We have various student grade levels, such as First Grade, Second Grade.. All of them have their own theme for creating a class plan. Please, create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " +
-  vibe +
-  " the theme is " +
-  bio +
-  `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Write the previous content with the following topics.    
-  1. Early activity.
-  Provide an activation and focus activity for the students before starting the class.
-  2. Prerequisites
-  Provide the detailed knowledge required to learn the topic.
-  3. Class Theme and Objectives
-  4. Development of the Theme
-  5. Reconnect Activity
-  This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities.
-  6. Class Activities
-  The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this.
-  7. Assessment
-  Provide some sample questions.
-  `;
-
+    "Estoy creando una aplicación que genera planeaciones de clase para estudiantes. Contamos con varios niveles de grado de estudiantes, como Primero de Primaria, Segundo de Primaria.. Todos ellos tienen su propio tema para crear una planeación de clase. Por favor, crea un planeación de clase larga y perfecta de acuerdo al nivel de grado del estudiante y al tema..  grado del estudiante es " +
+    vibe +
+    " el tema es " +
+    bio +
+    `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Escriba el contenido anterior con los temas siguientes.    
+    1. Actividad temprana.
+    Proporcione una actividad de activacion y enfoque para los estudiantes antes de iniciar la clase.
+    2. Requisitos previos
+    Proporcione los conocimientos detallados que se requieren para aprender el tema.
+    3. Tema y Objetivos de la clase
+    4. Desarrollo del tema
+    5. Reconecta la actividad
+    Esto permite a los estudiantes reconectar su atención al tiempo de clase y prepararlos emocionalmente para el desarrollo de las actividades planificadas.
+    6. Actividades de clase
+    Las actividades deben estar preparadas y diseñadas para reforzar los nuevos conocimientos aprendidos. Se pueden desarrollar de forma individual o colectiva. Tiene que ser productiva y significativa para promover el desarrollo de habilidades de pensamiento. Recomendamos usar una plataforma educativa para esto.
+    7. Evaluación
+    Proporcione algunas preguntas de muestra.
+    `;
 
   const generateBio = async (e: any) => {
     e.preventDefault();
