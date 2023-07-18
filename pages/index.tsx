@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import DropDown, { VibeType, AreaType } from "../components/DropDown";
+import DropDown, { VibeType } from "../components/DropDown";
 import Footer from "../components/Footer";
 import Github from "../components/GitHub";
 import Header from "../components/Header";
@@ -11,7 +11,6 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
   const [vibe, setVibe] = useState<VibeType>("Primero de Primaria");
-  const [area, setArea] = useState<AreaType>("Ciencias Naturales");
   const [generatedBios, setGeneratedBios] = useState<string>("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
@@ -105,8 +104,6 @@ const Home = () => {
             <DropDown
               vibe={vibe}
               setVibe={(newVibe) => setVibe(newVibe)}
-              area={area}
-              setArea={(newArea) => setArea(newArea)}
             />
           </div>
 
