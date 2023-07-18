@@ -2,44 +2,47 @@ import Head from "next/head";
 import { useState } from "react";
 import DropDown, { OptionType } from "../components/DropDown";
 import Link from "next/link";
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const options: OptionType[] = [
-  { label: "First Grade", value: "First Grade" },
-  { label: "Second Grade", value: "Second Grade" },
-  { label: "Third Grade", value: "Third Grade" },
-  // Add other options as required...
+  { label: "Elemental", value: "Elemental" },
+  { label: "Media", value: "Media" },
+  { label: "Superior", value: "Superior" },
+  { label: "Bachillerato General Unificado", value: "Bachillerato General Unificado" },
+  // Agrega otras opciones según sea necesario...
 ];
 
 const Home = () => {
-  const [subGradeLevel, setSubGradeLevel] = useState<OptionType>(options[0]);
-  const [lessonTopic, setLessonTopic] = useState("");
-  const [generatedBios, setGeneratedBios] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [subNivel, setSubNivel] = useState<OptionType>(options[0]);
+  const [temaLeccion, setTemaLeccion] = useState("");
+  const [planGenerado, setPlanGenerado] = useState("");
+  const [cargando, setCargando] = useState(false);
 
   const prompt =
-    "I am creating an app that generates class plans for students. We have various student grade levels, such as First Grade, Second Grade.. All of them have their own theme for creating a class plan. Please, create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " +
-    subGradeLevel.label +
-    " the theme is " +
-    lessonTopic +
-    `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Write the previous content with the following topics.    
-    1. Early activity.
-    Provide an activation and focus activity for the students before starting the class.
-    2. Prerequisites
-    Provide the detailed knowledge required to learn the topic.
-    3. Class Theme and Objectives
-    4. Development of the Theme
-    5. Reconnect Activity
-    This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities.
-    6. Class Activities
-    The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this.
-    7. Assessment
-    Provide some sample questions.
+    "Estoy creando una aplicación que genera planes de clase para los estudiantes. Tenemos varios subniveles de estudiantes, como Elemental, Media, Superior, Bachillerato General Unificado... Cada uno tiene su propio tema para crear un plan de clase. Por favor, crea un plan de clase largo y perfecto de acuerdo al subnivel del estudiante y al tema. El subnivel del estudiante es " +
+    subNivel.label +
+    " y el tema es " +
+    temaLeccion +
+    `\n. Tu respuesta debe estar formateada usando elementos HTML para facilitar la lectura, incluyendo etiquetas de párrafo, saltos de línea, encabezados y títulos en negrita donde sea aplicable, no es necesario crear una página HTML completa incluyendo los elementos de cabecera y título. Escribe el contenido anterior con los siguientes temas.    
+    1. Actividad temprana.
+    Proporciona una actividad de activación y enfoque para los estudiantes antes de empezar la clase.
+    2. Prerrequisitos
+    Proporciona el conocimiento detallado necesario para aprender el tema.
+    3. Tema de la clase y Objetivos
+    4. Desarrollo del tema
+    5. Actividad de reconexión
+    Esto permite a los estudiantes reconectar su atención al tiempo de clase y prepararlos emocionalmente para el desarrollo de las actividades planificadas.
+    6. Actividades de la clase
+    Las actividades deben ser preparadas y diseñadas para reforzar el nuevo conocimiento aprendido. Pueden ser desarrolladas individualmente o colectivamente. Tiene que ser productiva y significativa para promover el desarrollo de las habilidades de pensamiento. Recomendamos usar una plataforma educativa para esto.
+    7. Evaluación
+    Proporciona algunas preguntas de muestra.
     `;
 
-  const generateLessonPlan = async (e: any) => {
+  const generarPlanLeccion = async (e: any) => {
     e.preventDefault();
-    setGeneratedBios("");
-    setLoading(true);
+    setPlanGenerado("");
+    setCargando(true);
     const response = await fetch("/api/generate", {
       method: "POST",
       headers: {
@@ -55,96 +58,58 @@ const Home = () => {
     }
 
     const data = await response.json();
-    setGeneratedBios(data.generatedBios);
-    setLoading(false);
+    setPlanGenerado(data.generatedBios);
+    setCargando(false);
   };
-
-  const scrollToBios = () => {
-    document.getElementById("bios")?.scrollIntoView({ behavior: "smooth" });
-  };
-  
 
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Head>
-        <title>MagicPlan</title>
+        <title>PlanMágico</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
-        <a
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
-          href="https://samasat.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github />
-          <p></p>
-        </a>
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-          Generate your Lesson Plan with Navi AI
+          Genera tu Plan de Lección con Navi AI
         </h1>
         <p className="text-slate-500 mt-5">
-          2,118 lesson plans generated so far.
+          2,118 planes de lección generados hasta ahora.
         </p>
         <div className="max-w-xl w-full">
           <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/1-black.png"
-              width={30}
-              height={30}
-              alt="1 icon"
-              className="mb-5 sm:mb-0"
-            />
             <p className="text-left font-medium">
-              Enter the topic for your lesson plan.{" "}
+              Introduce el tema para tu plan de lección.{" "}
               <span className="text-slate-500"></span>
             </p>
           </div>
           <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
+            value={temaLeccion}
+            onChange={(e) => setTemaLeccion(e.target.value)}
             rows={4}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder={"For example, the cells of the human body"}
+            className="w-full h-24 mt-3 p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            required
           />
-          <div className="flex mb-5 items-center space-x-3">
-            <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
-            <p className="text-left font-medium">
-              Select the School Grade.
-            </p>
-          </div>
-          <div className="block">
-            <DropDown options={gradeLevels} selectedOption={subGradeLevel} setSelectedOption={(option) => setSubGradeLevel(option)} />
-          </div>
-
-          {!loading && (
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              onClick={(e) => generateBio(e)}
-            >
-              Generate Lesson Plan &rarr;
-            </button>
-          )}
-          {loading && (
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              disabled
-            >
-              <LoadingDots color="white" style="large" />
-            </button>
-          )}
+          <DropDown
+            options={options}
+            label="Selecciona el subnivel del estudiante"
+            selectedValue={subNivel}
+            onChange={setSubNivel}
+          />
+          <button
+            onClick={generarPlanLeccion}
+            className="w-full mt-6 py-3 bg-blue-600 rounded text-white text-lg font-medium focus:outline-none"
+          >
+            {cargando ? "Generando..." : "Generar Plan de Lección"}
+          </button>
         </div>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{ duration: 2000 }}
-        />
-        <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
-        <div className="space-y-10 my-10">
-          {parse(generatedBios)}
-        </div>
+        {planGenerado && (
+          <div
+            className="mt-10 w-full max-w-xl p-5 rounded-md bg-white shadow-lg text-left"
+            dangerouslySetInnerHTML={{ __html: planGenerado }}
+          ></div>
+        )}
       </main>
       <Footer />
     </div>
