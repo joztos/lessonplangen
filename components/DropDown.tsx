@@ -1,46 +1,34 @@
-import { useState } from "react";
+function App() {
+  const niveles: OptionType[] = [
+    { label: "Elemental", value: "elemental" },
+    { label: "Media", value: "media" },
+    { label: "Superior", value: "superior" },
+    { label: "Bachillerato General Unificado", value: "bachillerato" },
+  ];
 
-export type OptionType = {
-  label: string;
-  value: string;
-}
+  const otrosFiltros: OptionType[] = [
+    { label: "Opción 1", value: "1" },
+    { label: "Opción 2", value: "2" },
+    { label: "Opción 3", value: "3" },
+    // más opciones...
+  ];
 
-type DropDownProps = {
-  options: OptionType[];
-  selectedOption: OptionType;
-  setSelectedOption: (option: OptionType) => void;
-};
-
-const DropDown: React.FC<DropDownProps> = ({ options, selectedOption, setSelectedOption }) => {
-  const [open, setOpen] = useState(false);
+  const [nivelSeleccionado, setNivelSeleccionado] = useState(niveles[0]);
+  const [filtroSeleccionado, setFiltroSeleccionado] = useState(otrosFiltros[0]);
 
   return (
-    <div className="relative inline-block text-left">
-      <div>
-        <button type="button" onClick={() => setOpen(!open)} 
-        // Rest of the button code...
-        >
-          {selectedOption.label}
-        </button>
-      </div>
-
-      {open && (
-        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" 
-          // Rest of the div code...
-        >
-          <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            {options.map((option) => (
-              <button key={option.value} onClick={() => setSelectedOption(option)} 
-              // Rest of the button code...
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+    <div>
+      <DropDown 
+        options={niveles} 
+        selectedOption={nivelSeleccionado} 
+        setSelectedOption={setNivelSeleccionado} 
+      />
+      <DropDown 
+        options={otrosFiltros} 
+        selectedOption={filtroSeleccionado} 
+        setSelectedOption={setFiltroSeleccionado} 
+      />
+      {/* resto de tu código... */}
     </div>
   );
-};
-
-export default DropDown;
+}
