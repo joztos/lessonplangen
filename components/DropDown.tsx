@@ -1,78 +1,46 @@
-import { Menu, Transition } from "@headlessui/react";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from "@heroicons/react/20/solid";
-import { Fragment } from "react";
+import { useState } from "react";
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+export type OptionType = {
+  label: string;
+  value: string;
 }
 
-export type VibeType = "Primero de Primaria" | "Segundo de Primaria" | "Tercero de Primaria" | "Cuarto de Primaria" | "Quinto de Primaria" | "Sexto de Primaria" | "Primero de Secundaria" | "Segundo de Secundaria" | "Tercero de Secundaria" | "Primero de Preparatoria" | "Segundo de Preparatoria" | "Tercero de Preparatoria";
+type DropDownProps = {
+  options: OptionType[];
+  selectedOption: OptionType;
+  setSelectedOption: (option: OptionType) => void;
+};
 
-interface DropDownProps {
-  vibe: VibeType;
-  setVibe: (vibe: VibeType) => void;
-}
+const DropDown: React.FC<DropDownProps> = ({ options, selectedOption, setSelectedOption }) => {
+  const [open, setOpen] = useState(false);
 
-let vibes: VibeType[] = ["Primero de Primaria", "Segundo de Primaria", "Tercero de Primaria", "Cuarto de Primaria", "Quinto de Primaria", "Sexto de Primaria", "Primero de Secundaria", "Segundo de Secundaria", "Tercero de Secundaria", "Primero de Preparatoria", "Segundo de Preparatoria", "Tercero de Preparatoria"];
-
-
-export default function DropDown({ vibe, setVibe }: DropDownProps) {
   return (
-    <Menu as="div" className="relative block text-left w-full">
+    <div className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-between items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black">
-          {vibe}
-          <ChevronUpIcon
-            className="-mr-1 ml-2 h-5 w-5 ui-open:hidden"
-            aria-hidden="true"
-          />
-          <ChevronDownIcon
-            className="-mr-1 ml-2 h-5 w-5 hidden ui-open:block"
-            aria-hidden="true"
-          />
-        </Menu.Button>
+        <button type="button" onClick={() => setOpen(!open)} 
+        // Rest of the button code...
+        >
+          {selectedOption.label}
+        </button>
       </div>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items
-          className="absolute left-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-          key={vibe}
+      {open && (
+        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" 
+          // Rest of the div code...
         >
-          <div className="">
-            {vibes.map((vibeItem) => (
-              <Menu.Item key={vibeItem}>
-                {({ active }) => (
-                  <button
-                    onClick={() => setVibe(vibeItem)}
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      vibe === vibeItem ? "bg-gray-200" : "",
-                      "px-4 py-2 text-sm w-full text-left flex items-center space-x-2 justify-between"
-                    )}
-                  >
-                    <span>{vibeItem}</span>
-                    {vibe === vibeItem ? (
-                      <CheckIcon className="w-4 h-4 text-bold" />
-                    ) : null}
-                  </button>
-                )}
-              </Menu.Item>
+          <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+            {options.map((option) => (
+              <button key={option.value} onClick={() => setSelectedOption(option)} 
+              // Rest of the button code...
+              >
+                {option.label}
+              </button>
             ))}
           </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default DropDown;
