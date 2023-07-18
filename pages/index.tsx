@@ -92,11 +92,11 @@ const Home = () => {
             required
           />
           <DropDown
-            options={options}
-            label="Selecciona el subnivel del estudiante"
-            selectedValue={subNivel}
-            onChange={setSubNivel}
-          />
+  options={options}
+  selectedOption={subNivel}
+  setSelectedOption={setSubNivel}
+/>
+
           <button
             onClick={generarPlanLeccion}
             className="w-full mt-6 py-3 bg-blue-600 rounded text-white text-lg font-medium focus:outline-none"
