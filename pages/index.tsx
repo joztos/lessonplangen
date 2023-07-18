@@ -115,12 +115,13 @@ const Home: NextPage = () => {
       </button>
 
       {loading ? (
-        <LoadingDots />
-      ) : (
-        <div ref={lessonPlanRef}>
-          {parse(generatedLessonPlans)}
-        </div>
-      )}
+  <LoadingDots color="black" />  // Add color prop here
+) : (
+  <div ref={lessonPlanRef}>
+    {parse(generatedLessonPlans)}
+  </div>
+)}
+
 
       <Footer />
     </div>
