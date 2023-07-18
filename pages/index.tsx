@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [viceRector, setViceRector] = useState("");
   const [teacher, setTeacher] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [generatedBios, setGeneratedBios] = useState<string>("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
