@@ -16,6 +16,10 @@ const Home: NextPage = () => {
   const [grade, setGrade] = useState("");
   const [area, setArea] = useState("");
   const [subject, setSubject] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [rector, setRector] = useState("");
+  const [viceRector, setViceRector] = useState("");
+  const [teacher, setTeacher] = useState("");
   const [generatedBios, setGeneratedBios] = useState<string>("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
@@ -115,8 +119,89 @@ const Home: NextPage = () => {
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={"For example, the cells of the human body"}
           />
+
+          <div className="flex mt-10 items-center space-x-3">
+            <Image
+              src="/2-black.png"
+              width={30}
+              height={30}
+              alt="2 icon"
+              className="mb-5 sm:mb-0"
+            />
+            <p className="text-left font-medium">
+              Enter the Institution name.
+            </p>
+          </div>
+          <textarea
+            value={institution}
+            onChange={(e) => setInstitution(e.target.value)}
+            rows={1}
+            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+            placeholder={"For example, XYZ School"}
+          />
+
+          <div className="flex mt-10 items-center space-x-3">
+            <Image
+              src="/3-black.png"
+              width={30}
+              height={30}
+              alt="3 icon"
+              className="mb-5 sm:mb-0"
+            />
+            <p className="text-left font-medium">
+              Enter the Rector name.
+            </p>
+          </div>
+          <textarea
+            value={rector}
+            onChange={(e) => setRector(e.target.value)}
+            rows={1}
+            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+            placeholder={"For example, John Doe"}
+          />
+
+          <div className="flex mt-10 items-center space-x-3">
+            <Image
+              src="/4-black.png"
+              width={30}
+              height={30}
+              alt="4 icon"
+              className="mb-5 sm:mb-0"
+            />
+            <p className="text-left font-medium">
+              Enter the Vice-rector name.
+            </p>
+          </div>
+          <textarea
+            value={viceRector}
+            onChange={(e) => setViceRector(e.target.value)}
+            rows={1}
+            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+            placeholder={"For example, Jane Doe"}
+          />
+
+          <div className="flex mt-10 items-center space-x-3">
+            <Image
+              src="/5-black.png"
+              width={30}
+              height={30}
+              alt="5 icon"
+              className="mb-5 sm:mb-0"
+            />
+            <p className="text-left font-medium">
+              Enter the Teacher name.
+            </p>
+          </div>
+          <textarea
+            value={teacher}
+            onChange={(e) => setTeacher(e.target.value)}
+            rows={1}
+            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+            placeholder={"For example, Dr. Smith"}
+          />
+
           <div className="flex mb-5 items-center space-x-3">
-            <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
+            <Image src="/6-black.png" width={30} height={30} alt="6 icon" />
             <p className="text-left font-medium">
               Select the School Grade.
             </p>
