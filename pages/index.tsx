@@ -1,13 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
-import { Toaster, toast } from "react-hot-toast";
 import DropDown from "../components/DropDown";
-import Footer from "../components/Footer";
-import Github from "../components/GitHub";
-import Header from "../components/Header";
-import LoadingDots from "../components/LoadingDots";
 import parse from "html-react-parser";
 
 const Home: NextPage = () => {
@@ -27,12 +21,11 @@ const Home: NextPage = () => {
   const bioRef = useRef<null | HTMLDivElement>(null);
 
   const initialSkills = [
-    "M.2.2.10. Medir, estimar y comparar longitudes de objetos del entorno, contrastándolas con patrones de medidas no convencionales.",
-    "M.2.2.11. Utilizar las unidades de medida de longitud: el metro y sus submúltiplos (dm, cm, mm) en la estimación y medición de longitudes de objetos del entorno.",
-    "M.2.2.13. Representar cantidades monetarias con el uso de monedas y billetes de 1, 5, 10, 20, 50 y 100 (didácticos).",
-    "M.2.2.15. Utilizar la unidad monetaria en actividades lúdicas y en transacciones cotidianas simples, destacando la importancia de la integridad y la honestidad.",
-    "M.2.2.16. Reconocer día, noche, mañana, tarde, hoy, ayer, días de la semana y los meses del año para valorar el tiempo propio y el de los demás, y ordenar situaciones temporales secuenciales asociándolas con eventos significativos.",
-    "M.2.2.19. Medir, estimar y comparar masas contrastándolas con patrones de medidas no convencionales."
+    "Skill 1",
+    "Skill 2",
+    "Skill 3",
+    "Skill 4",
+    "Skill 5",
   ];
 
   useEffect(() => {
