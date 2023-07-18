@@ -3,17 +3,25 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import DropDown, { VibeType } from "../components/DropDown";
+import DropDown, { OptionType } from "../components/DropDown";
 import Footer from "../components/Footer";
 import Github from "../components/GitHub";
 import Header from "../components/Header";
 import LoadingDots from "../components/LoadingDots";
 import parse from "html-react-parser";
 
+const gradeLevels: OptionType[] = [
+  { label: "Elemental", value: "elemental" },
+  { label: "Media", value: "media" },
+  { label: "Superior", value: "superior" },
+  { label: "Bachillerato General Unificado", value: "bachillerato_general_unificado" },
+  // Agregar más niveles aquí...
+];
+
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
-  const [vibe, setVibe] = useState<VibeType>("Primero de Primaria");
+  const [subGradeLevel, setSubGradeLevel] = useState<OptionType>(gradeLevels[0]);
   const [generatedBios, setGeneratedBios] = useState<string>("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
@@ -47,8 +55,7 @@ const Home: NextPage = () => {
   7. Assessment
   Provide some sample questions.
   `;
-
-
+  
   const generateBio = async (e: any) => {
     e.preventDefault();
     setGeneratedBios("");
@@ -67,22 +74,8 @@ const Home: NextPage = () => {
       throw new Error(response.statusText);
     }
 
-    // This data is a ReadableStream
-    const data = response.body;
-    if (!data) {
-      return;
-    }
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
-
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      setGeneratedBios((prev) => prev + chunkValue);
-    }
+    const data = await response.json();
+    setGeneratedBios(data.generatedBios);
     scrollToBios();
     setLoading(false);
   };
@@ -139,7 +132,7 @@ const Home: NextPage = () => {
             </p>
           </div>
           <div className="block">
-            <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
+            <DropDown options={gradeLevels} selectedOption={subGradeLevel} setSelectedOption={(option) => setSubGradeLevel(option)} />
           </div>
 
           {!loading && (
