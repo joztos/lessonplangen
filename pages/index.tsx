@@ -95,8 +95,8 @@ const Home = () => {
   options={options}
   selectedOption={subNivel}
   setSelectedOption={setSubNivel}
+  label="Selecciona el subnivel del estudiante"
 />
-
           <button
             onClick={generarPlanLeccion}
             className="w-full mt-6 py-3 bg-blue-600 rounded text-white text-lg font-medium focus:outline-none"
