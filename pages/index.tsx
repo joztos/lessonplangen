@@ -245,13 +245,16 @@ const Home: NextPage = () => {
               </div>
             ))}
           </div>
+
           <button
-            className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-900"
-            type="submit"
-          >
-            Generate Lesson Plan
-            {loading && <LoadingDots />}
-          </button>
+  className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-gray-900"
+  type="submit"
+>
+  Generate Lesson Plan
+  {loading && <LoadingDots color="white" />}
+</button>
+
+
         </div>
         <div ref={bioRef}>
           <h2>Generated Plan:</h2>
