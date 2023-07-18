@@ -11,18 +11,18 @@ import Header from "../components/Header";
 import LoadingDots from "../components/LoadingDots";
 import parse from "html-react-parser";
 
-const gradeLevels: OptionType[] = [
-  { label: 'Elemental', value: 'Elemental' },
-  { label: 'Media', value: 'Media' },
-  { label: 'Superior', value: 'Superior' },
-  { label: 'Bachillerato General Unificado', value: 'Bachillerato General Unificado' },
-];
-
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [lessonPlan, setLessonPlan] = useState("");
-  const [gradeLevel, setGradeLevel] = useState<OptionType>(gradeLevels[0]);
+  const [gradeLevel, setGradeLevel] = useState<OptionType>({ label: "Elemental", value: "elemental" });
   const [generatedLessonPlans, setGeneratedLessonPlans] = useState<string>("");
+
+  const gradeLevels: OptionType[] = [
+    { label: 'Elemental', value: 'elemental' },
+    { label: 'Media', value: 'media' },
+    { label: 'Superior', value: 'superior' },
+    { label: 'Bachillerato General Unificado', value: 'bachillerato' },
+  ];
 
   const lessonPlanRef = useRef<null | HTMLDivElement>(null);
 
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
   }, [generatedLessonPlans]);
 
   const prompt =
-    "Estoy creando una aplicación que genera planeaciones de clase para estudiantes. Contamos con varios niveles de grado de estudiantes, como Elemental, Media, Superior, Bachillerato General Unificado.. Todos ellos tienen su propio tema para crear una planeación de clase. Por favor, crea un planeación de clase larga y perfecta de acuerdo al nivel de grado del estudiante y al tema..  grado del estudiante es " +
+    "Estoy creando una aplicación que genera planeaciones de clase para estudiantes. Contamos con varios niveles de grado de estudiantes, como Primero de Primaria, Segundo de Primaria.. Todos ellos tienen su propio tema para crear una planeación de clase. Por favor, crea un planeación de clase larga y perfecta de acuerdo al nivel de grado del estudiante y al tema..  grado del estudiante es " +
     gradeLevel.label +
     " el tema es " +
     lessonPlan +
@@ -95,37 +95,10 @@ const Home: NextPage = () => {
     setLoading(false);
   };
 
-  return (
-    <div>
-      <Head>
-        <title>Your Lesson Plan Generator</title>
-      </Head>
-
-      <Header />
-
-      <DropDown
-        options={gradeLevels}
-        selectedOption={gradeLevel}
-        setSelectedOption={setGradeLevel}
-        label="Grade Level"
-      />
-
-      <button onClick={generateLessonPlan}>
-        Generate Lesson Plan
-      </button>
-
-      {loading ? (
-  <LoadingDots color="black" />  // black
-) : (
-  <div ref={lessonPlanRef}>
-    {parse(generatedLessonPlans)}
-  </div>
-)}
-
-
-      <Footer />
-    </div>
-  );
+  // Remainder of your JSX
+  // Replace every 'bio' with 'lessonPlan', and 'vibe' with 'gradeLevel'
+  // For example, `setBio(e.target.value)` becomes `setLessonPlan(e.target.value)`
+  // and `DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)}` becomes `DropDown gradeLevel={gradeLevel} setGradeLevel={(newGradeLevel) => setGradeLevel(newGradeLevel)}`
 };
 
 export default Home;
