@@ -12,17 +12,17 @@ import LoadingDots from "../components/LoadingDots";
 import parse from "html-react-parser";
 
 const Home: NextPage = () => {
+  const gradeLevels: OptionType[] = [
+    { label: "Elemental", value: "elemental" },
+    { label: "Media", value: "media" },
+    { label: "Superior", value: "superior" },
+    { label: "Bachillerato General Unificado", value: "bachillerato" }
+  ];
+
   const [loading, setLoading] = useState(false);
   const [lessonPlan, setLessonPlan] = useState("");
   const [gradeLevel, setGradeLevel] = useState<OptionType>({ label: "Elemental", value: "elemental" });
   const [generatedLessonPlans, setGeneratedLessonPlans] = useState<string>("");
-
-  const gradeLevels: OptionType[] = [
-    { label: 'Elemental', value: 'elemental' },
-    { label: 'Media', value: 'media' },
-    { label: 'Superior', value: 'superior' },
-    { label: 'Bachillerato General Unificado', value: 'bachillerato' },
-  ];
 
   const lessonPlanRef = useRef<null | HTMLDivElement>(null);
 
@@ -95,10 +95,51 @@ const Home: NextPage = () => {
     setLoading(false);
   };
 
-  // Remainder of your JSX
-  // Replace every 'bio' with 'lessonPlan', and 'vibe' with 'gradeLevel'
-  // For example, `setBio(e.target.value)` becomes `setLessonPlan(e.target.value)`
-  // and `DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)}` becomes `DropDown gradeLevel={gradeLevel} setGradeLevel={(newGradeLevel) => setGradeLevel(newGradeLevel)}`
+  return (
+    <div>
+      <Head>
+        <title>Lesson Plan Generator</title>
+      </Head>
+
+      <Header />
+
+      <Toaster />
+
+      <main>
+        <form onSubmit={generateLessonPlan}>
+          <div>
+            <DropDown 
+              options={gradeLevels} 
+              selectedOption={gradeLevel} 
+              setSelectedOption={setGradeLevel} 
+              label="Grade Level"
+            />
+
+            <input
+              type="text"
+              value={lessonPlan}
+              onChange={(e) => setLessonPlan(e.target.value)}
+              placeholder="Enter the theme of the lesson plan"
+            />
+
+            <button type="submit" disabled={loading}>
+              Generate Lesson Plan
+            </button>
+          </div>
+        </form>
+
+        {loading ? (
+          <LoadingDots color="black" />
+        ) : (
+          <div ref={lessonPlanRef}>
+            {parse(generatedLessonPlans)}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default Home;
