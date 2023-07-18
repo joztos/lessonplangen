@@ -53,7 +53,7 @@ const Home: NextPage = () => {
     }
   };
 
-  const generateBio = async (e) => {
+  const generateBio = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setGeneratedBios("");
     setLoading(true);
