@@ -8,13 +8,14 @@ export const config = {
   runtime: "edge",
 };
 
-const handler = async (req: Request): Promise<Response> => {
+const handler = async (req: Request, res: Response) => {
   const { prompt } = (await req.json()) as {
     prompt?: string;
   };
 
   if (!prompt) {
-    return new Response("No prompt in the request", { status: 400 });
+    res.status(400).send("No prompt in the request");
+    return;
   }
 
   const payload: OpenAIStreamPayload = {
@@ -26,11 +27,3 @@ const handler = async (req: Request): Promise<Response> => {
     presence_penalty: 0,
     max_tokens: 3000,
     stream: true,
-    n: 1,
-  };
-
-  const stream = await OpenAIStream(payload);
-  return new Response(stream);
-};
-
-export default handler;
