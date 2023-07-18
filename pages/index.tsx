@@ -1,164 +1,64 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Toaster, toast } from "react-hot-toast";
-import DropDown, { VibeType } from "../components/DropDown";
-import Footer from "../components/Footer";
-import Github from "../components/GitHub";
-import Header from "../components/Header";
-import LoadingDots from "../components/LoadingDots";
-import parse from "html-react-parser";
+import React, { useState } from "react";
+import DropDown from "../components/DropDown";
 
 const Home = () => {
-  const [loading, setLoading] = useState(false);
-  const [bio, setBio] = useState("");
-  const [vibe, setVibe] = useState<VibeType>(""); // Actualizado con el tipo VibeType
+  const [grade, setGrade] = useState("");
+  const [area, setArea] = useState("");
   const [subject, setSubject] = useState("");
-  const [generatedBios, setGeneratedBios] = useState("");
 
-  const bioRef = useRef<null | HTMLDivElement>(null);
-
-  const scrollToBios = () => {
-    if (bioRef.current !== null) {
-      bioRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  useEffect(() => {
-    console.log(generatedBios);
-  }, [generatedBios]);
-
-  const prompt =
-    "I am creating an app that generates class plans for students. We have various student grade levels, such as " +
-    vibe +
-    ". All of them have their own theme for creating a class plan. Please create a long and perfect class plan according to the student's grade level, the area of study being " +
-    subject +
-    ", and the theme of the class being " +
-    bio +
-    ". Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings, and bold titles where applicable. No need to create a full HTML page, including head and title elements. Write the previous content with the following topics:\n" +
-    "1. Early activity: Provide an activation and focus activity for the students before starting the class.\n" +
-    "2. Prerequisites: Provide the detailed knowledge required to learn the topic.\n" +
-    "3. Class Theme and Objectives.\n" +
-    "4. Development of the Theme.\n" +
-    "5. Reconnect Activity: This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities.\n" +
-    "6. Class Activities: The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this.\n" +
-    "7. Assessment: Provide some sample questions.";
-
-  const generateBio = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setGeneratedBios("");
-    setLoading(true);
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-
-    const data = await response.text();
-    setGeneratedBios(data);
-    scrollToBios();
-    setLoading(false);
+  const handleGenerateBio = () => {
+    // Lógica para generar el plan de lecciones con los filtros seleccionados
   };
 
   return (
-    <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
-      <Header />
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
-        <a
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
-          href="https://samasat.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github />
-          <p></p>
-        </a>
-        <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-          Generate your Lesson Plan with Navi AI
-        </h1>
-        <p className="text-slate-500 mt-5">
-          2,118 lesson plans generated so far.
-        </p>
-        <div className="max-w-xl w-full">
-          <div className="flex mt-10 items-center space-x-3">
-            <p className="text-left font-medium">
-              Enter the topic for your lesson plan.
-            </p>
-          </div>
-          <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            rows={4}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder="For example, the cells of the human body"
-          />
-          <div className="flex mb-5 items-center space-x-3">
-            <p className="text-left font-medium">Select the School Grade.</p>
-          </div>
-          <div className="block">
-            <DropDown
-              vibe={vibe}
-              setVibe={(newVibe) => setVibe(newVibe)}
-              options={[
-                "SUBNIVEL BASICO ELEMENTAL",
-                "SUBNIVEL BASICO MEDIA",
-                "SUBNIVEL BACHILLERATO SUPERIOR",
-                "SUBNIVEL BACHILLERATO SUPERIOR",
-              ]}
-            />
-          </div>
-          <div className="flex mb-5 items-center space-x-3">
-            <p className="text-left font-medium">Select the Area.</p>
-          </div>
-          <div className="block">
-            <DropDown
-              vibe={subject}
-              setVibe={(newSubject) => setSubject(newSubject)}
-              options={[
-                "Matemáticas",
-                "Ciencias Sociales",
-                "Ciencias Naturales",
-                "Lengua Extranjera",
-                "Lengua y Literatura",
-                "Educación Cultural y Artística",
-                "Educación Física",
-                "Interdisciplinar",
-              ]}
-            />
-          </div>
-          {!loading ? (
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              onClick={generateBio}
-            >
-              Generate Lesson Plan &rarr;
-            </button>
-          ) : (
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              disabled
-            >
-              <LoadingDots color="white" style="large" />
-            </button>
-          )}
-        </div>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{ duration: 2000 }}
-        />
-        <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
-        <div className="space-y-10 my-10">
-          {parse(generatedBios)}
-        </div>
-      </main>
-      <Footer />
+    <div>
+      <h1>Generador de Plan de Lecciones</h1>
+      <DropDown
+        label="Grado Escolar"
+        selectedOption={grade}
+        options={[
+          "Primero de Primaria",
+          "Segundo de Primaria",
+          "Tercero de Primaria",
+          "Cuarto de Primaria",
+          "Quinto de Primaria",
+          "Sexto de Primaria",
+          "Primero de Secundaria",
+          "Segundo de Secundaria",
+          "Tercero de Secundaria",
+          "Primero de Preparatoria",
+          "Segundo de Preparatoria",
+          "Tercero de Preparatoria",
+        ]}
+        onSelectOption={setGrade}
+      />
+      <DropDown
+        label="Área de Estudio"
+        selectedOption={area}
+        options={[
+          "Matemáticas",
+          "Ciencias Sociales",
+          "Ciencias Naturales",
+          "Lengua Extranjera",
+          "Lengua y Literatura",
+          "Educación Cultural y Artística",
+          "Educación Física",
+          "Interdisciplinar",
+        ]}
+        onSelectOption={setArea}
+      />
+      <DropDown
+        label="Asignatura"
+        selectedOption={subject}
+        options={[
+          "Subnivel Básico Elemental",
+          "Subnivel Básico Media",
+          "Subnivel Bachillerato Superior",
+          "Subnivel Bachillerato Superior",
+        ]}
+        onSelectOption={setSubject}
+      />
+      <button onClick={handleGenerateBio}>Generar Plan de Lecciones</button>
     </div>
   );
 };
