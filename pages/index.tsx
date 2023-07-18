@@ -1,8 +1,6 @@
-// Componente Home.tsx
-
 import React, { useState, useEffect, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import DropDown from "../components/DropDown";
+import DropDown, { VibeType } from "../components/DropDown";
 import Footer from "../components/Footer";
 import Github from "../components/GitHub";
 import Header from "../components/Header";
@@ -12,7 +10,7 @@ import parse from "html-react-parser";
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
-  const [vibe, setVibe] = useState("");
+  const [vibe, setVibe] = useState<VibeType>(""); // Actualizado con el tipo VibeType
   const [subject, setSubject] = useState("");
   const [generatedBios, setGeneratedBios] = useState("");
 
