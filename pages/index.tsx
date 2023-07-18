@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+// Componente Home.tsx
+
+import React, { useState, useEffect, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import DropDown, { VibeType } from "../components/DropDown";
+import DropDown from "../components/DropDown";
 import Footer from "../components/Footer";
 import Github from "../components/GitHub";
 import Header from "../components/Header";
@@ -10,8 +12,9 @@ import parse from "html-react-parser";
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
-  const [vibe, setVibe] = useState<VibeType>("Primero de Primaria");
-  const [generatedBios, setGeneratedBios] = useState<string>("");
+  const [vibe, setVibe] = useState("");
+  const [subject, setSubject] = useState("");
+  const [generatedBios, setGeneratedBios] = useState("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
 
@@ -28,9 +31,9 @@ const Home = () => {
   const prompt =
     "I am creating an app that generates class plans for students. We have various student grade levels, such as " +
     vibe +
-    ". All of them have their own theme for creating a class plan. Please create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " +
-    vibe +
-    " and the theme is " +
+    ". All of them have their own theme for creating a class plan. Please create a long and perfect class plan according to the student's grade level, the area of study being " +
+    subject +
+    ", and the theme of the class being " +
     bio +
     ". Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings, and bold titles where applicable. No need to create a full HTML page, including head and title elements. Write the previous content with the following topics:\n" +
     "1. Early activity: Provide an activation and focus activity for the students before starting the class.\n" +
@@ -104,9 +107,33 @@ const Home = () => {
             <DropDown
               vibe={vibe}
               setVibe={(newVibe) => setVibe(newVibe)}
+              options={[
+                "SUBNIVEL BASICO ELEMENTAL",
+                "SUBNIVEL BASICO MEDIA",
+                "SUBNIVEL BACHILLERATO SUPERIOR",
+                "SUBNIVEL BACHILLERATO SUPERIOR",
+              ]}
             />
           </div>
-
+          <div className="flex mb-5 items-center space-x-3">
+            <p className="text-left font-medium">Select the Area.</p>
+          </div>
+          <div className="block">
+            <DropDown
+              vibe={subject}
+              setVibe={(newSubject) => setSubject(newSubject)}
+              options={[
+                "Matemáticas",
+                "Ciencias Sociales",
+                "Ciencias Naturales",
+                "Lengua Extranjera",
+                "Lengua y Literatura",
+                "Educación Cultural y Artística",
+                "Educación Física",
+                "Interdisciplinar",
+              ]}
+            />
+          </div>
           {!loading ? (
             <button
               className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
