@@ -275,10 +275,6 @@ const Home: NextPage = () => {
           },
           success: {
             duration: 2000,
-            theme: {
-              primary: "green",
-              secondary: "black",
-            },
           },
         }}
       />
