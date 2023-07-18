@@ -1,48 +1,59 @@
+import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
-import DropDown, { OptionType } from "../components/DropDown";
-import Link from "next/link";
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Image from "next/image";
+import { useRef, useState, useEffect } from "react";
+import { Toaster, toast } from "react-hot-toast";
+import DropDown, { VibeType } from "../components/DropDown";
+import Footer from "../components/Footer";
+import Github from "../components/GitHub";
+import Header from "../components/Header";
+import LoadingDots from "../components/LoadingDots";
+import parse from "html-react-parser";
 
-const options: OptionType[] = [
-  { label: "Elemental", value: "Elemental" },
-  { label: "Media", value: "Media" },
-  { label: "Superior", value: "Superior" },
-  { label: "Bachillerato General Unificado", value: "Bachillerato General Unificado" },
-  // Agrega otras opciones según sea necesario...
-];
+const Home: NextPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [bio, setBio] = useState("");
+  const [vibe, setVibe] = useState<VibeType>("Primero de Primaria");
+  const [generatedBios, setGeneratedBios] = useState<string>("");
 
-const Home = () => {
-  const [subNivel, setSubNivel] = useState<OptionType>(options[0]);
-  const [temaLeccion, setTemaLeccion] = useState("");
-  const [planGenerado, setPlanGenerado] = useState("");
-  const [cargando, setCargando] = useState(false);
+  const bioRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBios = () => {
+    if (bioRef.current !== null) {
+      bioRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    console.log(generatedBios);
+  }, [generatedBios]);
 
   const prompt =
-    "Estoy creando una aplicación que genera planes de clase para los estudiantes. Tenemos varios subniveles de estudiantes, como Elemental, Media, Superior, Bachillerato General Unificado... Cada uno tiene su propio tema para crear un plan de clase. Por favor, crea un plan de clase largo y perfecto de acuerdo al subnivel del estudiante y al tema. El subnivel del estudiante es " +
-    subNivel.label +
-    " y el tema es " +
-    temaLeccion +
-    `\n. Tu respuesta debe estar formateada usando elementos HTML para facilitar la lectura, incluyendo etiquetas de párrafo, saltos de línea, encabezados y títulos en negrita donde sea aplicable, no es necesario crear una página HTML completa incluyendo los elementos de cabecera y título. Escribe el contenido anterior con los siguientes temas.    
+    "Estoy creando una aplicación que genera planeaciones de clase para estudiantes. Contamos con varios niveles de grado de estudiantes, como Primero de Primaria, Segundo de Primaria.. Todos ellos tienen su propio tema para crear una planeación de clase. Por favor, crea un planeación de clase larga y perfecta de acuerdo al nivel de grado del estudiante y al tema..  grado del estudiante es " +
+    vibe +
+    " el tema es " +
+    bio +
+    `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Escriba el contenido anterior con los temas siguientes.    
     1. Actividad temprana.
-    Proporciona una actividad de activación y enfoque para los estudiantes antes de empezar la clase.
-    2. Prerrequisitos
-    Proporciona el conocimiento detallado necesario para aprender el tema.
-    3. Tema de la clase y Objetivos
+    Proporcione ejemplos de actividades de juego motivadoras, como una canción de atención, un poco de baile o un juego corto.
+    2. Requisitos previos
+    3. Tema y Meta
     4. Desarrollo del tema
-    5. Actividad de reconexión
+    - Agilidad e ingenio.
+    - operación intelectual
+    - inteligencia emocional
+    5. Reconecta la actividad
     Esto permite a los estudiantes reconectar su atención al tiempo de clase y prepararlos emocionalmente para el desarrollo de las actividades planificadas.
-    6. Actividades de la clase
-    Las actividades deben ser preparadas y diseñadas para reforzar el nuevo conocimiento aprendido. Pueden ser desarrolladas individualmente o colectivamente. Tiene que ser productiva y significativa para promover el desarrollo de las habilidades de pensamiento. Recomendamos usar una plataforma educativa para esto.
+    6. Actividades de clase
+    Las actividades deben estar preparadas y diseñadas para reforzar los nuevos conocimientos aprendidos. Se pueden desarrollar de forma individual o colectiva. Tiene que ser productiva y significativa para promover el desarrollo de habilidades de pensamiento. Recomendamos usar una plataforma educativa para esto.
     7. Evaluación
-    Proporciona algunas preguntas de muestra.
+    Proporcione algunas preguntas de muestra.
     `;
 
-  const generarPlanLeccion = async (e: any) => {
+  const generateBio = async (e: any) => {
     e.preventDefault();
-    setPlanGenerado("");
-    setCargando(true);
+    setGeneratedBios("");
+    setLoading(true);
     const response = await fetch("/api/generate", {
       method: "POST",
       headers: {
@@ -57,59 +68,140 @@ const Home = () => {
       throw new Error(response.statusText);
     }
 
-    const data = await response.json();
-    setPlanGenerado(data.generatedBios);
-    setCargando(false);
+    // This data is a ReadableStream
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setGeneratedBios((prev) => prev + chunkValue);
+    }
+    scrollToBios();
+    setLoading(false);
   };
 
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Head>
-        <title>PlanMágico</title>
+        <title>MagicPlan</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
+        <a
+          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
+          href="https://samasat.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Github />
+          <p></p>
+        </a>
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
-          Genera tu Plan de Lección con Navi AI
+          Genera tu planeación de Clase con Navi AI
         </h1>
         <p className="text-slate-500 mt-5">
-          2,118 planes de lección generados hasta ahora.
+          2,118 planeaciones generadas hasta ahora.
         </p>
         <div className="max-w-xl w-full">
           <div className="flex mt-10 items-center space-x-3">
+            <Image
+              src="/1-black.png"
+              width={30}
+              height={30}
+              alt="1 icon"
+              className="mb-5 sm:mb-0"
+            />
             <p className="text-left font-medium">
-              Introduce el tema para tu plan de lección.{" "}
+              Escribe el tema para tu planeación de clase.{" "}
               <span className="text-slate-500"></span>
             </p>
           </div>
           <textarea
-            value={temaLeccion}
-            onChange={(e) => setTemaLeccion(e.target.value)}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
             rows={4}
-            className="w-full h-24 mt-3 p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-            required
+            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+            placeholder={" por ejemplo. las celulas del cuerpo humano."}
           />
-          <DropDown
-  options={options}
-  selectedOption={subNivel}
-  setSelectedOption={setSubNivel}
-  label="Selecciona el subnivel del estudiante"
-/>
-          <button
-            onClick={generarPlanLeccion}
-            className="w-full mt-6 py-3 bg-blue-600 rounded text-white text-lg font-medium focus:outline-none"
-          >
-            {cargando ? "Generando..." : "Generar Plan de Lección"}
-          </button>
+          <div className="flex mb-5 items-center space-x-3">
+            <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
+            <p className="text-left font-medium">
+              Selecciona el Grado Escolar.
+            </p>
+          </div>
+          <div className="block">
+            <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
+          </div>
+
+          {!loading && (
+            <button
+              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
+              onClick={(e) => generateBio(e)}
+            >
+              Generar Planeación &rarr;
+            </button>
+          )}
+          {loading && (
+            <button
+              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
+              disabled
+            >
+              <LoadingDots color="white" style="large" />
+            </button>
+          )}
         </div>
-        {planGenerado && (
-          <div
-            className="mt-10 w-full max-w-xl p-5 rounded-md bg-white shadow-lg text-left"
-            dangerouslySetInnerHTML={{ __html: planGenerado }}
-          ></div>
-        )}
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{ duration: 2000 }}
+        />
+        <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
+        <div className="space-y-10 my-10">
+          {/* {generatedBios && (
+            <>
+              <div>
+                <h2
+                  className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto"
+                  ref={bioRef}
+                >
+                  Your generated bios
+                </h2>
+              </div>
+              <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
+                {generatedBios
+                  .substring(generatedBios.indexOf("1") + 3)
+                  .split("4.")
+                  .map((generatedBio) => {
+                    return (
+                      <div
+                        className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
+                        onClick={() => {
+                          navigator.clipboard.writeText(generatedBio);
+                          toast("Bio copied to clipboard", {
+                            icon: "✂️",
+                          });
+                        }}
+                        key={generatedBio}
+                      >
+                        <p>{generatedBio}</p>
+                      </div>
+                    );
+                  })}
+              </div>
+            </>
+          )} */}
+          {parse(generatedBios)}
+        </div>
       </main>
       <Footer />
     </div>
