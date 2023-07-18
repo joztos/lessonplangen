@@ -25,4 +25,18 @@ const DropDown: React.FC<DropDownProps> = ({ options, selectedOption, setSelecte
       </div>
 
       {open && (
-        <div className="origin-top-right absolute
+        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+            {options.map((option) => (
+              <button key={option.value} onClick={() => {setSelectedOption(option); setOpen(false);}}>
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DropDown;
