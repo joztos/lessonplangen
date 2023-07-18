@@ -39,7 +39,7 @@ const Home: NextPage = () => {
     setSkills(initialSkills);
   }, []);
 
-  const handleSkillSelection = (skill) => {
+  const handleSkillSelection = (skill: string) => {
     if (!selectedSkills.includes(skill)) {
       setSelectedSkills([...selectedSkills, skill]);
     } else {
