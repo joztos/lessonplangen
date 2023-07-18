@@ -34,7 +34,16 @@ const Home: NextPage = () => {
     console.log(generatedBios);
   }, [generatedBios]);
 
-  const prompt = "I am creating an app that generates class plans for students. We have various student grade levels, such as First Grade, Second Grade.. All of them have their own theme for creating a class plan. Please, create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " + grade + " the theme is " + bio + " the area of study is " + area + " and the subject is " + subject + "\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Write the previous content with the following topics. 1. Early activity. Provide an activation and focus activity for the students before starting the class. 2. Prerequisites Provide the detailed knowledge required to learn the topic. 3. Class Theme and Objectives 4. Development of the Theme 5. Reconnect Activity This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities. 6. Class Activities The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this. 7. Assessment Provide some sample questions.";
+  const prompt =
+    "I am creating an app that generates class plans for students. We have various student grade levels, such as First Grade, Second Grade.. All of them have their own theme for creating a class plan. Please, create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " +
+    grade +
+    " the theme is " +
+    bio +
+    " the area of study is " +
+    area +
+    " and the subject is " +
+    subject +
+    "\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Write the previous content with the following topics. 1. Early activity. Provide an activation and focus activity for the students before starting the class. 2. Prerequisites Provide the detailed knowledge required to learn the topic. 3. Class Theme and Objectives 4. Development of the Theme 5. Reconnect Activity This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities. 6. Class Activities The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this. 7. Assessment Provide some sample questions.";
 
   const generateBio = async (e: any) => {
     e.preventDefault();
@@ -119,89 +128,8 @@ const Home: NextPage = () => {
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={"For example, the cells of the human body"}
           />
-
-          <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/2-black.png"
-              width={30}
-              height={30}
-              alt="2 icon"
-              className="mb-5 sm:mb-0"
-            />
-            <p className="text-left font-medium">
-              Enter the Institution name.
-            </p>
-          </div>
-          <textarea
-            value={institution}
-            onChange={(e) => setInstitution(e.target.value)}
-            rows={1}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder={"For example, XYZ School"}
-          />
-
-          <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/3-black.png"
-              width={30}
-              height={30}
-              alt="3 icon"
-              className="mb-5 sm:mb-0"
-            />
-            <p className="text-left font-medium">
-              Enter the Rector name.
-            </p>
-          </div>
-          <textarea
-            value={rector}
-            onChange={(e) => setRector(e.target.value)}
-            rows={1}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder={"For example, John Doe"}
-          />
-
-          <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/4-black.png"
-              width={30}
-              height={30}
-              alt="4 icon"
-              className="mb-5 sm:mb-0"
-            />
-            <p className="text-left font-medium">
-              Enter the Vice-rector name.
-            </p>
-          </div>
-          <textarea
-            value={viceRector}
-            onChange={(e) => setViceRector(e.target.value)}
-            rows={1}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder={"For example, Jane Doe"}
-          />
-
-          <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/5-black.png"
-              width={30}
-              height={30}
-              alt="5 icon"
-              className="mb-5 sm:mb-0"
-            />
-            <p className="text-left font-medium">
-              Enter the Teacher name.
-            </p>
-          </div>
-          <textarea
-            value={teacher}
-            onChange={(e) => setTeacher(e.target.value)}
-            rows={1}
-            className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
-            placeholder={"For example, Dr. Smith"}
-          />
-
           <div className="flex mb-5 items-center space-x-3">
-            <Image src="/6-black.png" width={30} height={30} alt="6 icon" />
+            <Image src="/2-black.png" width={30} height={30} alt="2 icon" />
             <p className="text-left font-medium">
               Select the School Grade.
             </p>
@@ -253,7 +181,58 @@ const Home: NextPage = () => {
               onSelectOption={setSubject}
             />
           </div>
-
+          <div className="flex space-x-3 flex-wrap">
+            <div className="flex-1">
+              <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                Institution Name
+              </label>
+              <textarea
+                value={institution}
+                onChange={(e) => setInstitution(e.target.value)}
+                rows={1}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+                placeholder={"For example, XYZ University"}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                Rector Name
+              </label>
+              <textarea
+                value={rector}
+                onChange={(e) => setRector(e.target.value)}
+                rows={1}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+                placeholder={"For example, John Doe"}
+              />
+            </div>
+          </div>
+          <div className="flex space-x-3 flex-wrap">
+            <div className="flex-1">
+              <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                Vice-rector Name
+              </label>
+              <textarea
+                value={viceRector}
+                onChange={(e) => setViceRector(e.target.value)}
+                rows={1}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+                placeholder={"For example, Jane Doe"}
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
+                Teacher Name
+              </label>
+              <textarea
+                value={teacher}
+                onChange={(e) => setTeacher(e.target.value)}
+                rows={1}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
+                placeholder={"For example, Smith Doe"}
+              />
+            </div>
+          </div>
           {!loading && (
             <button
               className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
