@@ -1,62 +1,42 @@
-import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { useState } from "react";
 import DropDown, { OptionType } from "../components/DropDown";
-import Footer from "../components/Footer";
-import Github from "../components/GitHub";
-import Header from "../components/Header";
-import LoadingDots from "../components/LoadingDots";
-import parse from "html-react-parser";
+import Link from "next/link";
 
-const gradeLevels: OptionType[] = [
-  { label: "Elemental", value: "elemental" },
-  { label: "Media", value: "media" },
-  { label: "Superior", value: "superior" },
-  { label: "Bachillerato General Unificado", value: "bachillerato_general_unificado" },
-  // Agregar más niveles aquí...
+const options: OptionType[] = [
+  { label: "First Grade", value: "First Grade" },
+  { label: "Second Grade", value: "Second Grade" },
+  { label: "Third Grade", value: "Third Grade" },
+  // Add other options as required...
 ];
 
-const Home: NextPage = () => {
+const Home = () => {
+  const [subGradeLevel, setSubGradeLevel] = useState<OptionType>(options[0]);
+  const [lessonTopic, setLessonTopic] = useState("");
+  const [generatedBios, setGeneratedBios] = useState("");
   const [loading, setLoading] = useState(false);
-  const [bio, setBio] = useState("");
-  const [subGradeLevel, setSubGradeLevel] = useState<OptionType>(gradeLevels[0]);
-  const [generatedBios, setGeneratedBios] = useState<string>("");
-
-  const bioRef = useRef<null | HTMLDivElement>(null);
-
-  const scrollToBios = () => {
-    if (bioRef.current !== null) {
-      bioRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  useEffect(() => {
-    console.log(generatedBios);
-  }, [generatedBios]);
 
   const prompt =
-  "I am creating an app that generates class plans for students. We have various student grade levels, such as First Grade, Second Grade.. All of them have their own theme for creating a class plan. Please, create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " +
-  vibe +
-  " the theme is " +
-  bio +
-  `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Write the previous content with the following topics.    
-  1. Early activity.
-  Provide an activation and focus activity for the students before starting the class.
-  2. Prerequisites
-  Provide the detailed knowledge required to learn the topic.
-  3. Class Theme and Objectives
-  4. Development of the Theme
-  5. Reconnect Activity
-  This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities.
-  6. Class Activities
-  The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this.
-  7. Assessment
-  Provide some sample questions.
-  `;
-  
-  const generateBio = async (e: any) => {
+    "I am creating an app that generates class plans for students. We have various student grade levels, such as First Grade, Second Grade.. All of them have their own theme for creating a class plan. Please, create a long and perfect class plan according to the student's grade level and the theme. The student's grade is " +
+    subGradeLevel.label +
+    " the theme is " +
+    lessonTopic +
+    `\n. Your response must be formatted using HTML Elements for easier readability, including paragraph tags, line breaks, headings and bold titles where applicable, no need to create Full HTML Page including head, title elements. Write the previous content with the following topics.    
+    1. Early activity.
+    Provide an activation and focus activity for the students before starting the class.
+    2. Prerequisites
+    Provide the detailed knowledge required to learn the topic.
+    3. Class Theme and Objectives
+    4. Development of the Theme
+    5. Reconnect Activity
+    This allows the students to reconnect their attention to class time and prepare them emotionally for the development of the planned activities.
+    6. Class Activities
+    The activities should be prepared and designed to reinforce the new knowledge learned. They can be developed individually or collectively. It has to be productive and meaningful to promote the development of thinking skills. We recommend using an educational platform for this.
+    7. Assessment
+    Provide some sample questions.
+    `;
+
+  const generateLessonPlan = async (e: any) => {
     e.preventDefault();
     setGeneratedBios("");
     setLoading(true);
@@ -76,9 +56,13 @@ const Home: NextPage = () => {
 
     const data = await response.json();
     setGeneratedBios(data.generatedBios);
-    scrollToBios();
     setLoading(false);
   };
+
+  const scrollToBios = () => {
+    document.getElementById("bios")?.scrollIntoView({ behavior: "smooth" });
+  };
+  
 
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
